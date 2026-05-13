@@ -1,2 +1,2 @@
 # Finding Hospital - Practo Test
-By Vikram, Srikant, Deepika, Rikitha, Aniket
+By Vikram, Srikant, Deepika, Rikitha, Aniket, Mayukh

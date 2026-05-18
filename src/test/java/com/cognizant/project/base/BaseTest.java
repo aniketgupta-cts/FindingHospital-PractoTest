@@ -1,7 +1,5 @@
 package com.cognizant.project.base;
 
-import io.cucumber.java.PendingException;
-import io.cucumber.java.en.Given;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -10,18 +8,25 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
-import org.testng.annotations.Parameters; // Import Parameters
+import org.testng.annotations.Parameters;
 
 import java.time.Duration;
+import java.util.List;
 
 public class BaseTest {
+
     protected WebDriver driver;
 
-    @Given("the user is on the Practo home page")
-    @BeforeClass
-    @Parameters("browser") // Matches the parameter name in testng.xml
-    public void setup(@Optional("Chrome") String browser) {
+    // ThreadLocal for parallel execution safety
+    private static ThreadLocal<WebDriver> threadDriver = new ThreadLocal<>();
 
+    // Shared data stores
+    private static List<String> citiesList;
+    private static List<String> hospitalList;
+
+    @BeforeClass
+    @Parameters("browser")
+    public void setup(@Optional("Chrome") String browser) {
         System.out.println("Initializing Browser: " + browser);
 
         if (browser.equalsIgnoreCase("chrome")) {
@@ -40,12 +45,29 @@ public class BaseTest {
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://www.practo.com/");
+
+        // Store in ThreadLocal so step defs can access it
+        threadDriver.set(driver);
     }
 
     @AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
+            threadDriver.remove();
         }
     }
+
+    // Static getter for step definitions to access driver
+    public static WebDriver getDriver() {
+        return threadDriver.get();
+    }
+
+    // Cities list helpers
+    public static void setCitiesList(List<String> list) { citiesList = list; }
+    public static List<String> getCitiesList() { return citiesList; }
+
+    // Hospital list helpers
+    public static void setHospitalList(List<String> list) { hospitalList = list; }
+    public static List<String> getHospitalList() { return hospitalList; }
 }

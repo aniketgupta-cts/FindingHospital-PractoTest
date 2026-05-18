@@ -1,5 +1,7 @@
 package com.cognizant.project.base;
 
+import io.cucumber.java.PendingException;
+import io.cucumber.java.en.Given;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,6 +17,7 @@ import java.time.Duration;
 public class BaseTest {
     protected WebDriver driver;
 
+    @Given("the user is on the Practo home page")
     @BeforeClass
     @Parameters("browser") // Matches the parameter name in testng.xml
     public void setup(@Optional("Chrome") String browser) {

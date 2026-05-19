@@ -6,6 +6,7 @@ import com.cognizant.project.pages.DiagnosticPage;
 import com.cognizant.project.pages.HomePage;
 import com.cognizant.project.pages.HospitalListingPage;
 import com.cognizant.project.util.ExcelWriter;
+import com.cognizant.project.util.ScreenshotUtil;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -14,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -23,8 +25,8 @@ public class PractoSteps {
     @Given("the user is on the Practo home page")
     public void userOnHomePage() {
         BaseTest.driver.get("https://www.practo.com/");
-        try { Thread.sleep(2000); } catch (InterruptedException e) {}
-        log.info("On Practo Home: " + BaseTest.driver.getTitle());
+        try { Thread.sleep(2000); } catch (InterruptedException _) {}
+        log.info("On Practo Home: {}", BaseTest.driver.getTitle());
     }
 
     // ---------- Scenario 1 ----------
@@ -34,13 +36,14 @@ public class PractoSteps {
         HomePage home = new HomePage(BaseTest.driver);
         home.searchLocation(location);
         home.searchService(service);
+        try { ScreenshotUtil.takeScreenshot(BaseTest.driver, "1_search_result"); } catch (IOException e) { log.error(e.getMessage()); } // screenshot 3
     }
 
     @Then("the hospitals with parking and rating above {double} are displayed")
     public void displayHospitals(double rating) throws InterruptedException {
         HospitalListingPage listing = new HospitalListingPage(BaseTest.driver);
         List<String> hospitals = listing.getHospitalsWithParking(rating);
-        log.info("--- Hospitals (Open 24x7, Parking, Rating > " + rating + ") ---");
+        log.info("--- Hospitals (Open 24x7, Parking, Rating > {}) ---", rating);
         for (String h : hospitals) {
             log.info(h);
         }
@@ -63,7 +66,8 @@ public class PractoSteps {
         for (String city : cities) {
             log.info(city);
         }
-        ExcelWriter.writeCities(cities); // <-- added
+        try { ScreenshotUtil.takeScreenshot(BaseTest.driver, "2_top_cities"); } catch (IOException e) { log.error(e.getMessage()); } // screenshot 5
+        ExcelWriter.writeCities(cities);
         Assert.assertTrue(cities.size() > 0, "Cities list should not be empty");
     }
 
@@ -78,7 +82,7 @@ public class PractoSteps {
         for (String handle : handles) {
             BaseTest.driver.switchTo().window(handle);
             String title = BaseTest.driver.getTitle();
-            log.info("Window title: " + title);
+            log.info("Window title: {}", title);
             if (title.contains("Employee Health | Corporate Health & Wellness Plans | Practo"))
                 break;
         }
@@ -87,15 +91,16 @@ public class PractoSteps {
 
     @And("the user fills the form with name {string} organization {string} phone {string} email {string}")
     public void fillForm(String name, String org, String phone, String email) {
-        log.info("Filling form for: " + name + " from " + org);
+        log.info("Filling form for: {} from {}", name, org);
         new CorporateWellnessPage(BaseTest.driver).fillForm(name, org, phone, email);
+        try { ScreenshotUtil.takeScreenshot(BaseTest.driver, "3_corporate_form_filled"); } catch (IOException e) { log.error(e.getMessage()); } // screenshot 6
     }
 
     @Then("the submit button status is captured")
     public void captureStatus() {
         CorporateWellnessPage form = new CorporateWellnessPage(BaseTest.driver);
         boolean enabled = form.isSubmitEnabled();
-        log.info("Submit Button Enabled: " + enabled);
+        log.info("Submit Button Enabled: {}", enabled);
         Assert.assertNotNull(enabled);
         if (enabled) {
             log.info("Form submitted (simulated).");

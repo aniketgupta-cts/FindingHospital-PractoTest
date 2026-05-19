@@ -8,13 +8,13 @@ public class CorporateWellnessPage {
     WebDriver driver;
 
     // Locators
-    private By name = By.id("name");
-    private By orgName = By.id("organizationName");
-    private By contact = By.id("contactNumber");
-    private By email = By.id("officialEmailId");
-    private By orgSize = By.id("organizationSize");
-    private By interest = By.id("interestedIn");
-    private By submitBtn = By.xpath("//header//button[@type='submit']"); // Adjusted locator
+    private final By name = By.id("name");
+    private final By orgName = By.id("organizationName");
+    private final By contact = By.id("contactNumber");
+    private final By email = By.id("officialEmailId");
+    private final By orgSize = By.id("organizationSize");
+    private final By interest = By.id("interestedIn");
+    private final By submitBtn = By.xpath("//header//button[@type='submit']"); // Adjusted locator
 
     public CorporateWellnessPage(WebDriver driver) {
         this.driver = driver;

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class DiagnosticPage {
     WebDriver driver;
-    private By cityItems = By.cssSelector(".u-margint--standard");
+    private final By cityItems = By.cssSelector(".u-margint--standard");
 
     public DiagnosticPage(WebDriver driver) {
         this.driver = driver;

@@ -11,8 +11,6 @@ public class HomePage {
     private final By cityInput = By.xpath("//*[@id=\"c-omni-container\"]/div/div[1]/div/input");
     private final By searchInput = By.xpath("//input[contains(@placeholder,'Search doctors')]");
     private final By labTestsLink = By.xpath("//*[text()='Lab Tests']");
-//    private By forCorporatesLink = By.xpath("//*[text()='For Corporates' and @class='nav-interact']");
-//    private By healthPlansLink = By.xpath("//*[text()='Health & Wellness Plans' and @class='nav-interact']");
 
     // Constructor
     public HomePage(WebDriver driver) {

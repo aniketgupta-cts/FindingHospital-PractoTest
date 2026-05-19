@@ -18,7 +18,11 @@ public class DiagnosticPage {
         List<String> cities = new ArrayList<>();
         List<WebElement> elements = driver.findElements(cityItems);
         for (WebElement el : elements) {
-            cities.add(el.getText());
+            try {
+                cities.add(el.getText());
+            } catch (Exception e) {
+                // Skip stale element
+            }
         }
         return cities;
     }

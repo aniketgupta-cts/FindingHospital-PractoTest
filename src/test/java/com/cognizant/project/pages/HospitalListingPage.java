@@ -43,7 +43,7 @@ public class HospitalListingPage {
                     switchTab(mainHandle);
 
                     if (checkParkingAvailable()) {
-                        System.out.println("✅ Found: " + hospitalName);
+                        System.out.println("Found: " + hospitalName);
                         qualifiedHospitals.add(hospitalName);
                     }
 

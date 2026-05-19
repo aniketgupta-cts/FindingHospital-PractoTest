@@ -13,7 +13,8 @@ import org.testng.annotations.Parameters;
         glue = {"com.cognizant.project.steps", "com.cognizant.project.base"},
         plugin = {
                 "pretty",
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
         }
 )
 

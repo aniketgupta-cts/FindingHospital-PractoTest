@@ -5,6 +5,7 @@ import com.cognizant.project.pages.CorporateWellnessPage;
 import com.cognizant.project.pages.DiagnosticPage;
 import com.cognizant.project.pages.HomePage;
 import com.cognizant.project.pages.HospitalListingPage;
+import com.cognizant.project.util.ExcelWriter;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -43,6 +44,7 @@ public class PractoSteps {
         for (String h : hospitals) {
             log.info(h);
         }
+        ExcelWriter.writeHospitals(hospitals); // <-- added
         Assert.assertTrue(hospitals.size() >= 0, "Hospital search ran successfully");
     }
 
@@ -61,6 +63,7 @@ public class PractoSteps {
         for (String city : cities) {
             log.info(city);
         }
+        ExcelWriter.writeCities(cities); // <-- added
         Assert.assertTrue(cities.size() > 0, "Cities list should not be empty");
     }
 

@@ -11,8 +11,13 @@ import org.testng.annotations.Parameters;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"com.cognizant.project.steps", "com.cognizant.project.base"},
-        plugin = {"pretty"}
+        plugin = {
+                "pretty",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+                "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"
+        }
 )
+
 public class PractoTest extends AbstractTestNGCucumberTests {
 
     public static String browserName = "chrome";

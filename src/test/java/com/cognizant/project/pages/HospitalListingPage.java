@@ -1,5 +1,8 @@
 package com.cognizant.project.pages;
 
+import com.cognizant.project.base.BaseTest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -9,9 +12,11 @@ import java.util.List;
 import java.util.Set;
 
 public class HospitalListingPage {
-    WebDriver driver;
 
-    private By hospitalCards = By.cssSelector(".c-estb-card");
+    WebDriver driver;
+    private static final Logger log = LogManager.getLogger(HospitalListingPage.class);
+
+    private final By hospitalCards = By.cssSelector(".c-estb-card");
 
     public HospitalListingPage(WebDriver driver) {
         this.driver = driver;
@@ -26,7 +31,8 @@ public class HospitalListingPage {
         Thread.sleep(2000);
 
         List<WebElement> cards = driver.findElements(hospitalCards);
-        System.out.println("Processing " + cards.size() + " hospitals...");
+        String message = "Processing " + cards.size() + " hospitals...";
+        log.info(message);
 
         for (WebElement card : cards) {
             try {
@@ -43,7 +49,8 @@ public class HospitalListingPage {
                     switchTab(mainHandle);
 
                     if (checkParkingAvailable()) {
-                        System.out.println("Found: " + hospitalName);
+                        message = "Found: " + hospitalName;
+                        log.info(message);
                         qualifiedHospitals.add(hospitalName);
                     }
 
@@ -52,7 +59,8 @@ public class HospitalListingPage {
                     driver.switchTo().window(mainHandle);
                 }
             } catch (Exception e) {
-                System.out.println("Skipping card due to error: " + e.getMessage());
+                message = "Skipping card due to error: " + e.getMessage();
+                log.info(message);
                 if (driver.getWindowHandles().size() > 1) {
                     driver.close();
                     driver.switchTo().window(mainHandle);
